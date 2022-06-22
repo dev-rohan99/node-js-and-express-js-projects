@@ -1,15 +1,19 @@
 const express = require('express');
+const authTokenCreate = require('../controllers/authTokenCreateController');
+const { createToken, decodeToken } = require('../controllers/JWPpractice');
 const router = express.Router();
-
-// const { helloGet, helloPost } = require('../controllers/helloController');
 const studentsController = require('../controllers/studentsController');
+const tokenVarify = require('../middleware/tokenVarifyMiddleware');
 
 
-// router.get('/hello-get', helloGet);
-// router.post('/hello-post', helloPost);
-
-// mongodb
+router.get('/token', authTokenCreate);
 router.post('/create', studentsController.InsertData);
+router.get('/', studentsController.readStudent);
+router.patch('/:id', tokenVarify, studentsController.updateStudent);
+router.delete('/:id', tokenVarify, studentsController.deleteData);
 
+// encode and decode using JWT
+router.get('/create-token', createToken);
+router.get('/decode-token', decodeToken);
 
 module.exports = router;

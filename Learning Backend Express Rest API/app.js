@@ -9,7 +9,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
 const hpp = require('hpp');
-const mongoose = require('mongoose');
 
 app.use(bodyParser.json());
 
@@ -29,17 +28,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-
-// connect to mongoDB
-let URI = 'mongodb://127.0.0.1:27017/school';
-let OPTION = { user : '', password : '' };
-
-mongoose.connect(URI, OPTION, (err) => {
-    console.log('Connection successful!');
-});
-
-
-app.use( '/api', router );
+app.use( '/api/students', router );
 
 // undefiend route
 app.use('*', ( req, res ) => {
